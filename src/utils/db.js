@@ -1,5 +1,5 @@
 
-async function executeQuery(query) {
+async function executeQuery(dbClient, query) {
   try {
     return await dbClient.query(query);
   } catch (err) {
