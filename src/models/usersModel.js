@@ -52,7 +52,7 @@ const createOneUser = async (newUser) => {
 }
 
 const updateOneUser = async (userId, changes) => {
-    const fields = []
+    const fields = [] 
     const values = []
 
     if (changes.name !== undefined) {
@@ -75,8 +75,7 @@ const updateOneUser = async (userId, changes) => {
 
     try {
         const query = {
-            text: `UPDATE pokemons SET ${fields.join(', ')} WHERE id = $${indiceId} RETURNING *;`,
-            values: values,
+            text: `UPDATE users SET ${fields.join(', ')} WHERE id = $${idIndex} RETURNING *;`,
             values
         }
 
