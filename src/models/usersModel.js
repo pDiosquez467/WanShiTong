@@ -34,9 +34,42 @@ const createOneUser = async (newUser) => {
     return created.rows[0] 
 }
 
+const updateOneUser = async (userId, changes) => {
+
+    const fields = []
+    const values = []
+
+    if (changes.name !== undefined) {
+		fields.push(`name = $${values.length + 1}`)
+		values.push(changes.name)
+	}
+
+    if (changes.email !== undefined) {
+		fields.push(`email = $${values.length + 1}`)
+		values.push(changes.email)
+	}
+
+    if (changes.password !== undefined) {
+		fields.push(`password = $${values.length + 1}`)
+		values.push(changes.password)
+	}
+
+    values.push(userId)
+    const idIndex = values.length
+
+    const query = {
+        text: `UPDATE pokemons SET ${fields.join(', ')} WHERE id = $${indiceId} RETURNING *;`,
+		values: values,
+        values
+    }
+
+    const updated = await dbClient.query(query)
+    return updated.rows[0]
+}
+
 const deleteOneUser = async (userId) => {
     const query = {
-        name: 'delete-one-user',
+        name: 'delete-user',
         text: `DELETE FROM users WHERE id = $1 RETURNING *;`,
         values: [userId]
     }
@@ -49,5 +82,6 @@ module.exports = {
     getAllUsers,
     getOneUser,
     createOneUser,
+    updateOneUser,
     deleteOneUser
 }
