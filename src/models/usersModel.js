@@ -34,9 +34,20 @@ const createOneUser = async (newUser) => {
     return created.rows[0] 
 }
 
+const deleteOneUser = async (userId) => {
+    const query = {
+        name: 'delete-one-user',
+        text: `DELETE FROM users WHERE id = $1 RETURNING *;`,
+        values: [userId]
+    }
+
+    const deleted = await dbClient.query(query)
+    return deleted.rows[0]
+}
 
 module.exports = {
     getAllUsers,
     getOneUser,
-    createOneUser
+    createOneUser,
+    deleteOneUser
 }
